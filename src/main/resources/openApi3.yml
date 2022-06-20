@@ -1,0 +1,155 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 0.1.9
+servers:
+  - url: https://api.example.com/v1
+    description: Optional server description, e.g. Main (production) server
+  - url: https://staging-api.example.com
+    description: Optional server description, e.g. Internal staging server for testing
+paths:
+  /users:
+    get:
+      summary: Returns a list of users.
+      tags:
+        - users
+      description: Optional extended description in CommonMark or HTML.
+      operationId: getAllUsers
+      parameters:
+        - name: startDate
+          in: query
+          required: false
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type : string
+            format: date
+        - name: endDate
+          in: query
+          required: false
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type : string
+            format: date
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+                xml:
+                  wrapped: true
+    post:
+      summary: Creates a user.
+      tags:
+        - users
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /users/{userId}:
+    get:
+      summary: Returns a user by ID.
+      tags:
+        - users
+      operationId: getUserById
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type : string
+            format: uuid
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /orders:
+    get:
+      summary: Returns a list of orders.
+      tags:
+        - orders
+      description: Optional extended description in CommonMark or HTML.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+                xml:
+                  wrapped: true
+components:
+  schemas:
+    User:
+      type: object
+      xml:
+        name: user
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        createAt:
+          type: string
+          format: date
+      required:
+        - firstName
+        - lastName
+    Order:
+      type: object
+      xml:
+        name: order
+      properties:
+        id:
+          type: string
+          format: uuid
+        creationAt:
+          type: string
+          format: date
+      required:
+        - creationAt

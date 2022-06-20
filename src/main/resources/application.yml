@@ -1,0 +1,14 @@
+# Configure HTTP Connector
+server:
+  port: 8090
+  servlet:
+    context-path: /
+
+cxf:
+  path: /api # CXFServlet URL pattern
+  jaxrs:
+    component-scan: true
+    classes-scan-packages: org.universite.ventes.api.impl, com.fasterxml.jackson.jaxrs.json,  org.apache.cxf.jaxrs.validation, org.apache.cxf.jaxrs.swagger    
+    
+
+    
